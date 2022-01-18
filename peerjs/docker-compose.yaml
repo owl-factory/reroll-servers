@@ -1,0 +1,11 @@
+# Docker-Compose for standing up a development PeerJS server
+version: "3"
+services: 
+  peerjs: 
+    container_name: "peerjs"
+    image: peerjs/peerjs-server
+    restart: unless-stopped
+    ports:
+     - 3002:9000
+    
+
