@@ -1,10 +1,12 @@
 {
-  "name": "reroll_server",
-  "version": "1.0.0",
+  "name": "reroll-socketio-server",
+  "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon --config nodemon.json src/server.ts",
+    "build": "tsc",
+    "start": "tsc && node dist/server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -12,6 +14,9 @@
     "socket.io": "^3.1.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "@types/node": "^17.0.9",
+    "nodemon": "^2.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.2.3"
   }
 }

@@ -1,7 +1,10 @@
-const express = require(`express`);
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+
 const app = express();
-const server = require(`http`).Server(app);
-const io = require(`socket.io`)(server, 
+const server = new http.Server(app);
+const io = new Server(server, 
   {
     cors: {
       origin: "*"
@@ -14,7 +17,7 @@ app.use(express.static(`public`));
 
 app.get(`/`, (req, res) => {
   // console.log((io.sockets.server.engine.clients))
-  console.log((io.engine.clients))
+  // console.log((io.engine.clients))
   // console.log(io.sockets.adapter.rooms.get("1234").size)
   res.status(200).json({ success: true })
 });
@@ -26,7 +29,7 @@ app.get(`/:room`, (req, res) => {
 // Handles socket stuff
 io.on(`connection`, socket => {
   // Listen event for joining a table
-  socket.on(`join-table`, (tableID, userID) => {
+  socket.on(`join-table`, (tableID: string, userID: string) => {
     socket.join(tableID);
 
     // console.log(socket.adapter.rooms.get(tableID));
@@ -48,12 +51,12 @@ io.on(`connection`, socket => {
   });
 
   // Informs all players in the table that the current user is ready to play
-  socket.on(`ready`, (tableID, userID) => {
+  socket.on(`ready`, (tableID: string, userID: string) => {
     socket.to(tableID).broadcast.emit(`player-ready`, userID);
   });
 
   // Tells the players who the new host is. 
-  socket.on(`assume-host`, (tableID, userID) => {
+  socket.on(`assume-host`, (tableID: string, userID: string) => {
     socket.to(tableID).broadcast.emit(`new-host`, userID);
   });
 });
